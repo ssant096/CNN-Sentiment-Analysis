@@ -30,17 +30,24 @@ In order to determine the number of “positive” and “negative” words in e
 
 # Counting the Number of Positive and Negative Words
 
-Now we have to work on building a linear regression model in order to try to predict the sentiment of the political articles based on the number of positive and negative political words. At this point we have our word banks, and we are iterating through every article and looking at a dataframe of all of the unique words in the article. From here we just count the number of positive words and negative words and store it in a dataframe alongside the article text and the political party. In order to count the number of positive and negative words, we just go through our temporary data frame of all the unique words in the article and add one to the positive word count if the word is in the dpositive political word bank, and same for the negative words. By the end we will have a data frame full of every single article, with the number of positive political words, the number of negative political words, and the political party. Since they are counting the unique words in the data frame, if the article says the same negative word twice, it will still only count as one. This is to ensure that no one word in our word bank will affect the sentiment too much if repeated in the same sentence. This way if any specific word in our word banks are used out of context or unusually frequently, it will not affect the results as much since it will only count once instead of all the times it is used.
- 
+Now we have to work on building a linear regression model in order to try to predict the sentiment of the political articles based on the number of positive and negative political words. At this point we have our word banks, and we are iterating through every article and looking at a dataframe of all of the unique words in the article. From here we just count the number of positive words and negative words and store it in a dataframe alongside the article text and the political party. In order to count the number of positive and negative words, we just go through our temporary data frame of all the unique words in the article and add one to the positive word count if the word is in the positive political word bank, and same for the negative words. By the end we will have a data frame full of every single article, with the number of positive political words, the number of negative political words, and the political party. Since they are counting the unique words in the data frame, if the article says the same negative word twice, it will still only count as one. This is to ensure that no one word in our word bank will affect the sentiment too much if repeated in the same sentence. This way if any specific word in our word banks are used out of context or unusually frequently, it will not affect the results as much since it will only count once instead of all the times it is used.
+
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/c0b558fc-12e9-4d34-849f-128d01e425cf">
+
 
 # EDA
 
 *Note: True Sentiment is 1 for positive overall sentiment, 0 for neutral, and -1 for negative.
 The True Sentiments were filled out manually by us based on the observed sentiment of the article. The color represents the frequency of each observation.
 
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/4a0ce3d9-880c-4f82-b998-5a904e892f89">
+
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/587965c0-2e03-4cc8-b36c-ac054e839765">
 
 
 When looking solely at the graphs of the number of positive and negative political words versus the true sentiment of the article, it is hard to observe a concrete linear pattern that our linear regression model would require. However, when we plot the difference between the number of positive words and negative words, we start to see something we like.
+
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/71b38c80-f8dc-4fc0-bfa7-454b7f182b48">
 
 
 	Difference = # of positive words - # of negative words
@@ -50,6 +57,8 @@ While the linear trend is not perfect, it does seem to be there.
 
 # Building the Linear Regression Model
 
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/f7f7e163-274c-4f01-ab28-b0e7db0e40fd">
+
 
 Since our linear regression model should give a positive number if it is a positive sentiment, negative number if it is a negative sentiment, and a number close to 0 if it is neutral, we have to determine how close to 0 to consider neutral. This is what the thresholds on line 17 are for. The sentiment has to reach above 0.3 in order to be considered positive, and has to reach below -0.2 to be considered negative. After experimentation, these are the thresholds that gave us the most accurate results with our testing data (73% correct classifications of articles).
 On line 19 we have the linear regression model coefficients and intercept. At first we wanted to build a linear model with no intercept since we thought an article with 0 positive and 0 negative words would be 0 (neutral), but this failed to give us higher than 55% correct classifications in our testing data. As a result, we decided to include the intercept and saw our results improve significantly to 73%. Then line 20 is just filling in our sentiment predictions for all of the articles we have using the linear regression model we just built.
@@ -57,6 +66,9 @@ On line 19 we have the linear regression model coefficients and intercept. At fi
 # Conclusions
 
 Using our finished linear regression sentiment analysis model, we can observe the results from CNN’s articles.
+
+<img width="750" alt="image" src="https://github.com/ssant096/CNN-Sentiment-Analysis/assets/102336530/0ea88d75-5e90-459f-b3ce-32f109278bd1">
+
 
 From the above stacked bar chart we can see that most news for Democrats and Republicans in CNN is more negative. The next most common type of news for both parties is neutral, and the least frequent type of news is positive news. We can observe that CNN’s articles of Republicans seem to be slightly more negative; however, it is pretty close and our sentiment analysis model is not the most accurate so we cannot really draw any conclusions there.
 
